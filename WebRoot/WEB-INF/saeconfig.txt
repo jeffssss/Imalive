@@ -1,0 +1,4 @@
+jdbcUrl = jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_imrunning?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = xwx52yww4k
+password =1jx4yw5ly3k2wl3m43wm2h03kx0w14xihh35kj3w
+devMode = true

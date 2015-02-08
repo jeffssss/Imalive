@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web Socket Demo</title>
+<script type="text/javascript">
+    var ws = null;
+    function startServer() {
+        var url = "ws://127.0.0.1:20000/Imalive/ws/danmu.ws";
+        if ('WebSocket' in window) {
+            ws = new WebSocket(url);
+        } else if ('MozWebSocket' in window) {
+            ws = new MozWebSocket(url);
+        } else {
+            alert('Your browser Unsupported WebSocket!');
+            return;
+        }
+
+        ws.onopen = function() {
+            document.getElementById("content").innerHTML += 'websocket open! Welcome!<br />';
+        };
+        ws.onmessage = function(event) {
+            document.getElementById("content").innerHTML += event.data + '<br />';
+        };
+        ws.onclose = function() {
+            document.getElementById("content").innerHTML += 'websocket closed! Byebye!<br />';
+        };
+    }
+
+    function sendMyMessage() {
+        var nickName = document.getElementById('nickName');
+        var textMessage = document.getElementById('textMessage');
+        if (ws != null && textMessage.value != '') {
+            ws.send(nickName.value + '!@#$%' + textMessage.value);
+            textMessage.value = '';
+        }
+    }
+</script>
+</head>
+<body onload="startServer()">
+    your name:
+    <input type="text" id="nickName" size="20" />
+    <br />
+    <input type="text" id="textMessage" size="20" />
+    <input type="button" onclick="sendMyMessage()" value="Send">
+    <div id="content"></div>
+</html>
