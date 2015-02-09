@@ -14,6 +14,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;  
 import java.util.concurrent.TimeoutException;  
 
+import com.sina.sae.memcached.SaeMemcache;
+
 import net.spy.memcached.AddrUtil;  
 import net.spy.memcached.BinaryConnectionFactory;  
 import net.spy.memcached.CASMutation;  
@@ -31,7 +33,11 @@ import net.spy.memcached.transcoders.Transcoder;
  *
  */
 public class MemClient {  
-
+	
+	public static SaeMemcache client = new SaeMemcache("localhost", 11211);
+	
+	
+/*
     public static int DEFAULT_TIMEOUT = 5;  
     public static TimeUnit DEFAULT_TIMEUNIT = TimeUnit.SECONDS;  
     private static MemClient instance = null;
@@ -237,6 +243,6 @@ public class MemClient {
             f.cancel(false);  
             return false;  
         }  
-    }  
+    }  */
   
 }  

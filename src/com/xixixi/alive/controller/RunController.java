@@ -28,14 +28,15 @@ public class RunController extends Controller {
 			return;
 		}
 		String token = (String)obj;
+		System.out.println("run ->token:"+token);
 		//如果token找不到我不知道会出现什么情况。
-		long distance =MemClient.getInstance().increment(token, 1);
-		long worldDistance = MemClient.getInstance().increment("world_distance", 1);
+		long distance =MemClient.client.incr(token, 1);
+		long worldDistance = MemClient.client.incr("world_distance", 1);
 		//world信息定时写入数据库。
 		if(worldDistance%1000==0){
 			World world = new World();
 			world.set("distance", worldDistance);
-			world.set("alivenum", MemClient.getInstance().get("world_alivenum"));
+			world.set("alivenum", MemClient.client.get("world_alivenum"));
 			world.set("time", new Date());
 			world.save();
 		}
@@ -53,7 +54,7 @@ public class RunController extends Controller {
 			} catch (Exception e) {
 				counter = -1;
 			}
-			if(counter%100 ==0){
+			if(counter%150 ==0){
 				Aliveuser user = Aliveuser.dao.findFirst("select uid  from aliveuser where token=?",token);
 				user.set("udistance", distance);
 				user.update();
@@ -63,7 +64,7 @@ public class RunController extends Controller {
 		map.put("state", "1");
 		map.put("distance", distance+"");
 		map.put("world_distance", ""+worldDistance);
-		map.put("world_alivenum", MemClient.getInstance().get("world_alivenum")+"");
+		map.put("world_alivenum", MemClient.client.get("world_alivenum")+"");
 		renderJson(gson.toJson(map));
 		return;
 	}

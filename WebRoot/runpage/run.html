@@ -8,11 +8,29 @@
   <title>I'M RUNNING</title>
 
   <style>
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}table{border-collapse:collapse;border-spacing:0}
+html,body,div,span,applet,object,iframe,
+h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,
+abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,
+kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,
+center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,
+caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,
+embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,
+section,summary,time,mark,audio,video
+{margin:0;padding:0;border:0;font-size:100%;
+font:inherit;vertical-align:baseline
+}
+article,aside,details,figcaption,figure,footer,
+header,hgroup,menu,nav,section
+{display:block}
+body{line-height:1}
+ol,ul{list-style:none}
+blockquote,q{quotes:none}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
+table{border-collapse:collapse;border-spacing:0}
 
 </style>
 
-    <style>
+<style>
 body {
   background: #fff4e0;
 }
@@ -191,16 +209,46 @@ body {
 }
 
 </style>
+<style type="text/css">
+.danmu_anim{
+width:100px;
+height:50px;
+background:red;
+position:absolute;top:0px;right:0px;
+animation-name:myfirst;
+animation-duration:5s;
+animation-timing-function:linear;
+animation-iteration-count:infinite;
+animation-play-state:running;
+/* Safari and Chrome: */
+-webkit-animation-name:myfirst;
+-webkit-animation-duration:5s;
+-webkit-animation-timing-function:linear;
+-webkit-animation-iteration-count:infinite;
+-webkit-animation-play-state:running;
+}
 
+@keyframes myfirst
+{
+0%   {background:red; left:0px; top:0px;}
+100% {background:red; left:0px; top:500px;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+0%   {background:red; right:0px;}
+100% {background:red; right:500px;}
+}
+
+</style>
     <script src="${base}/js/prefixfree.min.js"></script>
-
 </head>
 
 <body>
 <div> Hello ${session.user.uname!} ~	<a href="${base!}/login/readToken" target="_blank">查看token</a></div>   
 <div>我已经跑了：<span id="distance"></span> 米  | 
 全球参与者一共跑了:<span id="world"></span> 米 |
-共：<span id="alivenum"></span> 人次登陆
+共：<span id="alivenum"></span> 人次登陆 <button onclick="danmu()">danmu</button>
 </div>
 <div id="error"></div>
   <div class='kai animate' id='running'>
@@ -251,7 +299,14 @@ function running(){
 	
 	
 }
-
+</script>
+<script type="text/javascript">
+function danmu(){
+ 	var ele=document.createElement("div");
+	ele.className="danmu_anim";
+	document.body.appendChild(ele); 
+	
+}
 </script>
 </div>
 </body>

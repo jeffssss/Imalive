@@ -40,9 +40,12 @@ public class LoginController extends Controller {
 		newuser.set("token", TokenUtil.createToken(name));
 		if(newuser.save()){
 			setSessionAttr("user", newuser);
-			MemClient.getInstance().increment("world_alivenum", 1);
-			MemClient.getInstance().add(newuser.getStr("token"), 0,3600*24);
+			boolean a = MemClient.client.add(newuser.getStr("token"), 0,0);
+			//System.out.println("add  key=token :" + a);
+			long b = MemClient.client.incr("world_alivenum", 1);
+			//System.out.println("incr key = world_alivenum:"+b);
 			redirect("/run");
+			//render("debug.html");
 		}
 		else{
 			setAttr("error", "创建用户失败");
@@ -62,9 +65,15 @@ public class LoginController extends Controller {
 		}
 		else{
 			setSessionAttr("user", result.get(0));
-			MemClient.getInstance().set(result.get(0).getStr("token"), result.get(0).get("udistance"),3600*24);
-			MemClient.getInstance().increment("world_alivenum", 1);
+			boolean a = MemClient.client.set(result.get(0).getStr("token"), result.get(0).get("udistance"),0);
+			//System.out.println("set key=token:"+a);
+			long b = MemClient.client.incr("world_alivenum", 1);
+			//System.out.println("incr key=world_alivenum:"+b);
+			long c = MemClient.client.incr("world_distance", 1);
+			//System.out.println("incr key=world_distance:"+c);
+			
 			redirect("/run");
+			//render("debug.html");
 			return;
 		}
 	}

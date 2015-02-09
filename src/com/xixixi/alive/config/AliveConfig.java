@@ -15,6 +15,7 @@ import com.jfinal.core.JFinal;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.test.MemcachedLongTest;
 import com.xixixi.alive.controller.LoginController;
 import com.xixixi.alive.controller.RunController;
 import com.xixixi.alive.model.Aliveuser;
@@ -70,7 +71,8 @@ public class AliveConfig extends JFinalConfig {
 	@Override
 	public void afterJFinalStart() {
 		//启动memcache 
-		SpyMemcachedServer server = new SpyMemcachedServer();
+/*		spymemcached incr出错 暂时还是用sae的memcached
+ * 		SpyMemcachedServer server = new SpyMemcachedServer();
 		server.setIp("localhost");
 		server.setPort(11211);
 		MemClient.getInstance().setServer(server);
@@ -78,21 +80,20 @@ public class AliveConfig extends JFinalConfig {
 			MemClient.getInstance().connect();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-		
+		}*/
+		MemClient.client.init();
 		World world = World.dao.findFirst("select * from world  order by version desc");
-		MemClient.getInstance().set("world_distance", world.get("distance"),0);
-		MemClient.getInstance().set("world_alivenum", world.get("alivenum"),0);
+		MemClient.client.set("world_distance", world.get("distance"),0);
+		MemClient.client.set("world_alivenum", world.get("alivenum"),0);
 	}
 
 	@Override
 	public void beforeJFinalStop() {
 		World world = new World();
-		world.set("distance", MemClient.getInstance().get("world_distance"));
-		world.set("alivenum", MemClient.getInstance().get("world_alivenum"));
+		world.set("distance", MemClient.client.get("world_distance"));
+		world.set("alivenum", MemClient.client.get("world_alivenum"));
 		world.set("time", new Date());
 		world.save();
-		MemClient.getInstance().disConnect();
 	}
 	
 }
